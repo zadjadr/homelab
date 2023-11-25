@@ -14,8 +14,6 @@ services:
   nc_redis:
     image: redis:alpine
     restart: always
-    ports:
-      - 6379
     volumes:
       - nc_redis:/data
       - /etc/localtime:/etc/localtime:ro
