@@ -14,7 +14,7 @@ for file_name in $env_files; do
     echo "Decrypting $file_name into $decrypted_file..."
     # Run the sops command and save the decrypted content to the new file
     sops -d "$file_name" > "$decrypted_file"
-    chmod 600 "$decrypted_file"
+    chmod 440 "$decrypted_file"
 done
 
 echo "Decryption completed for all .env files."
