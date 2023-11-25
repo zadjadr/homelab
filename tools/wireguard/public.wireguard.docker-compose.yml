@@ -41,7 +41,6 @@ services:
 
 networks:
   wireguardnw:
-    driver: overlay
     name: wireguardnw
     enable_ipv6: true
     driver_opts:
