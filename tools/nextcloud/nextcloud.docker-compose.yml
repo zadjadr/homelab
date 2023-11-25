@@ -77,9 +77,10 @@ networks:
       encrypted: "true"
     ipam:
       config:
-        - subnet: fd6c:ec89:3749:6eaf:feed:beef::0002/112
+        - subnet: fd6c:ec89:3749:6eaf:feed:bee2::/112
         - subnet: 172.19.2.0/24
 
 volumes:
   db:
   nextcloud:
+  nc_redis:
