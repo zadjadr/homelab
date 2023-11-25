@@ -50,11 +50,11 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
       # -- (Optional) Configure DNS Challenge
-      # dnsChallenge:
-      #   provider: cloudflare
-      #   resolvers:
-      #     - "1.1.1.1:53"
-      #     - "8.8.8.8:53"
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
   production:
     acme:
       email: me@zops.top
@@ -64,11 +64,11 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
       # -- (Optional) Configure DNS Challenge
-      # dnsChallenge:
-      #   provider: cloudflare
-      #   resolvers:
-      #     - "1.1.1.1:53"
-      #     - "8.8.8.8:53"
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
 
 # -- (Optional) Disable TLS Cert verification check
 # serversTransport:
@@ -94,6 +94,10 @@ providers:
   docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
+    endpoint: "tcp://dockerproxy:2375"
+    network: traefiknw
+    swarmMode: false
+    useBindPortIP: true
   file:
-    directory: /etc/traefik
+    directory: /etc/traefik/providers
     watch: true

@@ -1,0 +1,89 @@
+http:
+  middlewares:
+    simpleRatelimiter:
+      rateLimit:
+        average: 5
+        period: 1s
+        burst: 50
+    nextcloudRatelimiter:
+      rateLimit:
+        average: 5
+        period: 1s
+        burst: 150
+    simpleInflightreq:
+      inFlightReq:
+        amount: 50
+    auth:
+      basicAuth:
+        usersFile: /var/passwordfile
+        removeheader: true
+    defaultHeaders:
+      headers:
+        frameDeny: true
+        sslRedirect: true
+        accessControlAllowMethods:
+          - GET
+        accessControlMaxAge: 100
+        addVaryHeader: true
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: no-referrer
+        featurePolicy: geolocation 'none'; camera 'none'; microphone 'none'
+        contentSecurityPolicy: |2-
+                default-src 'self' https;
+                script-src 'self' 'unsafe-inline' cdn.jsdelivr.net ajax.cloudflare.com;
+                style-src 'self' 'unsafe-inline' cdn.jsdelivr.net cdnjs.cloudflare.com fonts.googleapis.com;
+                font-src 'self' cdnjs.cloudflare.com fonts.googleapis.com fonts.gstatic.com;
+                img-src 'self' i.giphy.com;
+
+        customResponseHeaders:
+          Expect-CT: "max-age=604800, enforce;"
+          X-Permitted-Cross-Domain-Policies: none
+          server: Mein Server
+    nextcloudHeaders:
+      headers:
+        sslRedirect: true
+        accessControlMaxAge: 100
+        addVaryHeader: true
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: no-referrer
+        featurePolicy: geolocation 'none'; camera 'none'; microphone 'none'
+        contentSecurityPolicy: |2-
+                default-src 'self' https;
+                script-src 'self' 'unsafe-inline' cdn.jsdelivr.net ajax.cloudflare.com;
+                style-src 'self' 'unsafe-inline' cdn.jsdelivr.net cdnjs.cloudflare.com fonts.googleapis.com;
+                font-src 'self' cdnjs.cloudflare.com fonts.googleapis.com fonts.gstatic.com;
+                frame-ancestors 'self';
+
+        customResponseHeaders:
+          Expect-CT: "max-age=604800, enforce;"
+          X-Permitted-Cross-Domain-Policies: none
+          X-Frame-Options: SAMEORIGIN
+          server: Mein Server
+    simpleHeaders:
+      headers:
+        frameDeny: true
+        sslRedirect: true
+        accessControlMaxAge: 100
+        addVaryHeader: true
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: no-referrer
+        featurePolicy: geolocation 'none'; camera 'none'; microphone 'none'
+        contentSecurityPolicy: |2-
+                default-src 'self' https;
+
+        customResponseHeaders:
+          Expect-CT: "max-age=604800, enforce;"
+          X-Permitted-Cross-Domain-Policies: none
+          server: Mein Server

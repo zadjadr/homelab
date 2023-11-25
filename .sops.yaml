@@ -1,0 +1,16 @@
+pgp_fingerprints:
+  me@zops.top: &zadjad A70DAFBD8E1BEE79ECC052612D3474FFBE0E299A
+  1.cloud@zops.top: &1-cloud B7106585B24C89F87234372B2ECA134072F9DB20
+
+creation_rules:
+  - path_regex: .*.docker-compose.ya?ml
+    encrypted_regex: "^(environment)$"
+    key_groups:
+      - pgp:
+          - *zadjad
+          - *1-cloud
+  - path_regex: .*.env
+    key_groups:
+      - pgp:
+          - *zadjad
+          - *1-cloud
