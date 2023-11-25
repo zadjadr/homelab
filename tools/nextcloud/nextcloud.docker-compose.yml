@@ -7,7 +7,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
-      - db.env
+      - db.env.dec
     networks:
       - nextcloudnw
 
@@ -28,9 +28,9 @@ services:
     volumes:
       - nextcloud:/var/www/html
     env_file:
-      - db.env
-      - redis.env
-      - nextcloud.env
+      - db.env.dec
+      - redis.env.dec
+      - nextcloud.env.dec
     links:
       - db
       - nc_redis
@@ -71,11 +71,14 @@ services:
 
 networks:
   nextcloudnw:
-    driver: overlay
     enable_ipv6: true
     name: nextcloudnw
     driver_opts:
       encrypted: "true"
+    ipam:
+      config:
+        - subnet: fd6c:ec89:3749:6eaf:feed:beef::0002/112
+        - subnet: 172.19.2.0/24
 
 volumes:
   db:

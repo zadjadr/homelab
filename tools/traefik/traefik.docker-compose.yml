@@ -13,7 +13,7 @@ services:
     volumes:
       - ./config:/etc/traefik
     env_file:
-      - ./tls.env
+      - ./tls.env.dec
     networks:
       - traefiknw
       - wireguardnw
@@ -41,8 +41,11 @@ networks:
   nextcloudnw:
     external: true
   traefiknw:
-    driver: overlay
     name: traefiknw
     enable_ipv6: true
     driver_opts:
       encrypted: "true"
+    ipam:
+      config:
+        - subnet: fd6c:ec89:3749:6eaf:feed:beef::/112
+        - subnet: 172.19.0.0/24
