@@ -1,0 +1,82 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - db.env
+    networks:
+      - nextcloudnw
+
+  nc_redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379
+    volumes:
+      - nc_redis:/data
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - nextcloudnw
+
+  app:
+    image: nextcloud:fpm
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+    env_file:
+      - db.env
+      - redis.env
+      - nextcloud.env
+    links:
+      - db
+      - nc_redis
+    networks:
+      - nextcloudnw
+
+  web:
+    image: nginx
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=nextcloudnw
+      - traefik.http.routers.nextcloud.entrypoints=websecure
+      - traefik.http.routers.nextcloud.service=nextcloud-svc
+      - traefik.http.routers.nextcloud.tls=true
+      - traefik.http.routers.nextcloud.tls.certresolver=staging
+      - traefik.http.routers.nextcloud.rule=Host(`nextcloud.zops.top`)
+      - traefik.http.services.nextcloud-svc.loadbalancer.server.port=80
+      - traefik.http.services.nextcloud-svc.loadbalancer.passhostheader=true
+      - traefik.http.services.nextcloud-svc.loadbalancer.sticky.cookie=true
+      # Caldev Settings
+      - traefik.http.middlewares.nextcloud-caldav.redirectregex.permanent=true
+      - traefik.http.middlewares.nextcloud-caldav.redirectregex.regex=^https://(.*)/.well-known/(card|cal)dav
+      - traefik.http.middlewares.nextcloud-caldav.redirectregex.replacement=https://$${1}/remote.php/dav/
+      # Middleware
+      - "traefik.http.routers.nextcloud.middlewares=nextcloud-caldav@docker, nextcloudHeaders@file, nextcloudRatelimiter@file"
+    # Handled by traefik
+    # ports:
+    #  - 8080:80
+    links:
+      - app
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    volumes_from:
+      - app
+    networks:
+      - nextcloudnw
+
+networks:
+  nextcloudnw:
+    driver: overlay
+    enable_ipv6: true
+    name: nextcloudnw
+    driver_opts:
+      encrypted: "true"
+
+volumes:
+  db:
+  nextcloud:
