@@ -41,7 +41,7 @@ services:
       - traefik.http.middlewares.nextcloud-caldav.redirectregex.regex=^https://(.*)/.well-known/(card|cal)dav
       - traefik.http.middlewares.nextcloud-caldav.redirectregex.replacement=https://$${1}/remote.php/dav/
       # Middleware
-      - "traefik.http.routers.nextcloud.middlewares=nextcloud-caldav@docker, nextcloudHeaders@file, nextcloudRatelimiter@file"
+      - "traefik.http.routers.nextcloud.middlewares=nextcloud-caldav@docker, nextcloudHeaders@file"
     volumes:
       - nextcloud:/var/www/html:z
       - ./config/config.custom.php:/var/www/html/config/config.custom.php
