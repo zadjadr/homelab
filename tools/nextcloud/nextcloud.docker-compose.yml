@@ -44,10 +44,15 @@ services:
       - "traefik.http.routers.nextcloud.middlewares=nextcloud-caldav@docker, nextcloudHeaders@file, nextcloudRatelimiter@file"
     volumes:
       - nextcloud:/var/www/html:z
+      - ./config/config.custom.php:/var/www/html/config/config.custom.php
+      - ./hooks/before-starting:/docker-entrypoint-hooks.d/before-starting
     env_file:
       - db.env.dec
       - redis.env.dec
       - nextcloud.env.dec
+    environment:
+      - NEXTCLOUD_INIT_HTACCESS=true
+      - PHP_MEMORY_LIMIT=1024M
     depends_on:
       - db
       - nc_redis
