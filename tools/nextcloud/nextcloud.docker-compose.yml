@@ -43,12 +43,24 @@ services:
       # Middleware
       - "traefik.http.routers.nextcloud.middlewares=nextcloud-caldav@docker, nextcloudHeaders@file, nextcloudRatelimiter@file"
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud:/var/www/html:z
     env_file:
       - db.env.dec
       - redis.env.dec
       - nextcloud.env.dec
-    links:
+    depends_on:
+      - db
+      - nc_redis
+    networks:
+      - nextcloudnw
+
+  cron:
+    image: nextcloud:apache
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:z
+    entrypoint: /cron.sh
+    depends_on:
       - db
       - nc_redis
     networks:
