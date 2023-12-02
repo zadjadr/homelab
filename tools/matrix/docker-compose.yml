@@ -10,7 +10,7 @@ services:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
     volumes:
       - synapse:/data
-      - ./synpase.yaml:/data/homeserver.yaml
+      - ./homeserver.yaml:/data/homeserver.yaml
     depends_on:
       - db
     networks:
