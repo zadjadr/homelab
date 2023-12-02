@@ -1,0 +1,72 @@
+server_name: "matrix.zops.top"
+pid_file: /data/homeserver.pid
+public_baseurl: https://matrix.zops.top/
+listeners:
+  - port: 8448
+    tls: true
+    type: https
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: true
+database:
+  name: psycopg2
+  args:
+    dbname: synapse
+    host: db
+    cp_min: 5
+    cp_max: 10
+  # seconds of inactivity after which TCP should send a keepalive message to the server
+  keepalives_idle: 10
+  # the number of seconds after which a TCP keepalive message that is not
+  # acknowledged by the server should be retransmitted
+  keepalives_interval: 10
+  # the number of TCP keepalives that can be lost before the client's connection
+  # to the server is considered dead
+  keepalives_count: 3
+log_config: "/data/matrix.zops.top.log.config"
+media_store_path: /data/media_store
+report_stats: false
+signing_key_path: "/data/matrix.zops.top.signing.key"
+trusted_key_servers:
+  - server_name: "matrix.org"
+require_auth_for_profile_requests: true
+allow_profile_lookup_over_federation: false
+limit_profile_requests_to_users_who_share_rooms: true
+include_profile_data_on_invite: false
+allow_public_rooms_without_auth: false
+allow_public_rooms_over_federation: false
+block_non_admin_invites: true
+delete_stale_devices_after: 28d
+allowed_avatar_mimetypes: ["image/png", "image/jpeg"]
+forgotten_room_retention_period: 7d
+user_ips_max_age: 1d
+request_token_inhibit_3pid_errors: true
+next_link_domain_whitelist: [""]
+retention:
+  enabled: true
+  default_policy:
+    min_lifetime: 1d
+    max_lifetime: 1y
+  allowed_lifetime_min: 1d
+  allowed_lifetime_max: 1y
+  purge_jobs:
+    - longest_max_lifetime: 3d
+      interval: 12h
+    - shortest_max_lifetime: 3d
+      interval: 1d
+# email:
+#   smtp_host: mail.server
+#   smtp_port: 587
+#   smtp_user: "exampleusername"
+#   smtp_pass: "examplepassword"
+#   force_tls: true
+#   require_transport_security: true
+#   enable_tls: false
+#   notif_from: "Your Friendly %(app)s homeserver <noreply@example.com>"
+#   app_name: my_branded_matrix_server
+#   enable_notifs: true
+#   notif_for_new_users: false
+#   client_base_url: "http://localhost/riot"
+#   validation_token_lifetime: 15m
+#   invite_client_location: https://app.element.io

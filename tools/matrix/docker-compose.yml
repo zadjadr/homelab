@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  synapse:
+    image: docker.io/matrixdotorg/synapse:latest
+    restart: always
+    # See the readme for a full documentation of the environment settings
+    # NOTE: You must edit homeserver.yaml to use postgres, it defaults to sqlite
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+    volumes:
+      - matrix:/data
+      - ./synpase.yaml:/data/homeserver.yaml
+    depends_on:
+      - db
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.http-synapse.entryPoints=http
+      - traefik.http.routers.http-synapse.rule=Host(`matrix.zops.top`)
+      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
+      - traefik.http.routers.http-synapse.middlewares=https_redirect
+      - traefik.http.routers.https-synapse.entryPoints=https
+      - traefik.http.routers.https-synapse.rule=Host(`matrix.zops.top`)
+      - traefik.http.routers.https-synapse.service=synapse
+      - traefik.http.routers.https-synapse.tls=true
+      - traefik.http.services.synapse.loadbalancer.server.port=8448
+      - traefik.http.routers.https-synapse.tls.certResolver=staging
+
+  db:
+    image: docker.io/postgres:16-alpine
+    environment:
+      # ensure the database gets created correctly
+      # https://matrix-org.github.io/synapse/latest/postgres.html#set-up-database
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    env_file:
+      - ./db.env.dec
+    volumes:
+      - pg-matrix-schemas:/var/lib/postgresql/data
