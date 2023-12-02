@@ -18,6 +18,7 @@ services:
       - traefiknw
       - wireguardnw
       - nextcloudnw
+      - synapsenw
 
   dockerproxy:
     environment:
@@ -39,6 +40,8 @@ networks:
   wireguardnw:
     external: true
   nextcloudnw:
+    external: true
+  synapsenw:
     external: true
   traefiknw:
     name: traefiknw

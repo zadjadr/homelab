@@ -9,10 +9,12 @@ services:
     environment:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
     volumes:
-      - matrix:/data
+      - synapse:/data
       - ./synpase.yaml:/data/homeserver.yaml
     depends_on:
       - db
+    networks:
+      - synapsenw
     labels:
       - traefik.enable=true
       - traefik.http.routers.http-synapse.entryPoints=http
@@ -36,4 +38,21 @@ services:
     env_file:
       - ./db.env.dec
     volumes:
-      - pg-matrix-schemas:/var/lib/postgresql/data
+      - pg-synapse-schemas:/var/lib/postgresql/data
+    networks:
+      - synapsenw
+
+networks:
+  synapsenw:
+    enable_ipv6: true
+    name: synapsenw
+    driver_opts:
+      encrypted: "true"
+    ipam:
+      config:
+        - subnet: fd6c:ec89:3749:6eaf:feed:bee4::/112
+        - subnet: 172.19.3.0/24
+
+volumes:
+  pg-synapse-schemas:
+  synapse:
