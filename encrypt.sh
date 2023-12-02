@@ -9,8 +9,12 @@ env_files=$(find "$search_directory" -type f -name "*.env" -not -path "$search_d
 
 # Loop through each .env file and run the sops command
 for file_name in $env_files; do
-    echo "Encrypting $file_name..."
-    sops -e -i "$file_name"
+    if sops -d "$file_name" > /dev/null 2>&1; then
+        echo "✅ $file_name is already encrypted."
+    else
+        echo "🔐 Encrypting $file_name..."
+        sops -e -i "$file_name"
+    fi
 done
 
 echo "Encryption completed for all .env files."
