@@ -19,6 +19,5 @@ services:
 networks:
   watchtowernw:
     name: watchtowernw
-    enable_ipv6: true
     driver_opts:
       encrypted: "true"
