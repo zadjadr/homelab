@@ -1,0 +1,24 @@
+---
+version: "3"
+
+services:
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - watchtowernw
+    restart: always
+    environment:
+      WATCHTOWER_SCHEDULE: 0 0 4 * * *
+      TZ: Europe/Brussels
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_DEBUG: "true"
+
+networks:
+  watchtowernw:
+    name: watchtowernw
+    enable_ipv6: true
+    driver_opts:
+      encrypted: "true"
