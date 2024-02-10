@@ -4,6 +4,7 @@ version: "3"
 services:
   traefikRouter:
     image: traefik:latest
+    restart: always
     depends_on:
       - dockerproxy
     ports:
@@ -21,12 +22,13 @@ services:
       - synapsenw
 
   dockerproxy:
+    image: tecnativa/docker-socket-proxy
     environment:
       CONTAINERS: 1
       NETWORKS: 1
       SERVICES: 1
       TASKS: 1
-    image: tecnativa/docker-socket-proxy
+    restart: always
     labels:
       - traefik.enable=true
     networks:
