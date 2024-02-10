@@ -15,11 +15,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      - SERVERURL=vpn.zops.top #optional
+      - SERVERURL=1.vpn.zops.top #optional
       - SERVERPORT=51820 #optional
       - PEERS=6 #optional
       - PEERDNS=auto #optional
-      - INTERNAL_SUBNET=10.13.13.0/24, fd9c:0b7b:3f08::/64 #optional
+      - INTERNAL_SUBNET=10.13.14.0/24, fd9c:0b7b:3f09::/64 #optional
       - ALLOWEDIPS=0.0.0.0/0, ::/0 #optional
       - PERSISTENTKEEPALIVE_PEERS=25 #optional
       - LOG_CONFS=true #optional
@@ -47,5 +47,5 @@ networks:
       encrypted: "true"
     ipam:
       config:
-        - subnet: fd6c:ec89:3749:6eaf:feed:beef::0001/112
+        - subnet: fd6c:ec89:3749:6eaf:feed:bee1::/112
         - subnet: 172.19.1.0/24

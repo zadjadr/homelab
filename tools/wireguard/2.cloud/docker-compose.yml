@@ -15,11 +15,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      - SERVERURL=public.vpn.zops.top #optional
+      - SERVERURL=2.vpn.zops.top #optional
       - SERVERPORT=51820 #optional
       - PEERS=6 #optional
       - PEERDNS=auto #optional
-      - INTERNAL_SUBNET=10.13.14.0/24, fd9c:0b7b:3f09::/64 #optional
+      - INTERNAL_SUBNET=10.13.15.0/24, fd9c:0b7b:4f09::/64 #optional
       - ALLOWEDIPS=0.0.0.0/0, ::/0 #optional
       - PERSISTENTKEEPALIVE_PEERS=25 #optional
       - LOG_CONFS=true #optional
