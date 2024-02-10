@@ -13,3 +13,14 @@ TF_VAR_ssh_authorized_keys=
 TF_VAR_subnet_id=
 TF_VAR_ipv6_cidr=
 ```
+
+```shell
+# Optional
+export OCI_AZONES="ldMg:EU-FRANKFURT-1-AD-1 ldMg:EU-FRANKFURT-1-AD-2 ldMg:EU-FRANKFURT-1-AD-3"
+export OCI_INSTANCE_NAMES="1.cloud"
+
+cd infrastructure
+go build -o checker
+
+./checker
+```

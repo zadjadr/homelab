@@ -1,4 +1,7 @@
 # Ignore decrypted files
 
 *.dec
+*.tfstate
 .terraform
+
+infrastructure/checker
