@@ -14,6 +14,14 @@ TF_VAR_subnet_id=
 TF_VAR_ipv6_cidr=
 ```
 
+Use `pass edit cloud.oracle.com/auth` to create a secret with the following keys & fill them with the correct values:
+
+```ini
+BREVO_API_KEY=
+BREVO_SENDER_NAME=
+BREVO_SENDER_MAIL=
+```
+
 ```shell
 # Optional
 export OCI_AZONES="ldMg:EU-FRANKFURT-1-AD-1 ldMg:EU-FRANKFURT-1-AD-2 ldMg:EU-FRANKFURT-1-AD-3"
