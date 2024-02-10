@@ -3,5 +3,3 @@
 *.dec
 *.tfstate
 .terraform
-
-infrastructure/checker

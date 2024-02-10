@@ -20,7 +20,5 @@ export OCI_AZONES="ldMg:EU-FRANKFURT-1-AD-1 ldMg:EU-FRANKFURT-1-AD-2 ldMg:EU-FRA
 export OCI_INSTANCE_NAMES="1.cloud"
 
 cd infrastructure
-go build -o checker
-
 ./checker
 ```
