@@ -11,24 +11,25 @@ all_az = os.environ.get(
 all_names = os.environ.get("OCI_INSTANCE_NAMES", "3.cloud 4.cloud").split(" ")
 
 while True:
-    for az, name in zip(all_az, all_names):
-        print(f"Checking for {name} in {az}")
-        result = subprocess.run(
-            [
-                "terraform",
-                "apply",
-                "-auto-approve",
-                "-var",
-                f"availability_domain={az}",
-                "-var",
-                f"instance_name={name}",
-            ],
-            stdout=subprocess.DEVNULL,
-        )
+    for name in all_names:
+        for az in all_az:
+            print(f"Checking for {name} in {az}")
+            result = subprocess.run(
+                [
+                    "terraform",
+                    "apply",
+                    "-auto-approve",
+                    "-var",
+                    f"availability_domain={az}",
+                    "-var",
+                    f"instance_name={name}",
+                ],
+                stdout=subprocess.DEVNULL,
+            )
 
-        if result.returncode == 0:
-            print("Succeeded!")
-            exit(0)
+            if result.returncode == 0:
+                print("Succeeded!")
+                exit(0)
 
-        print(f"Waiting for {WAIT_TIME_SEC} secs before applying again.")
-        time.sleep(WAIT_TIME_SEC)
+            print(f"Waiting for {WAIT_TIME_SEC} secs before applying again.")
+            time.sleep(WAIT_TIME_SEC)
