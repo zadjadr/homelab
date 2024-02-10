@@ -2,9 +2,9 @@ server_name: "matrix.zops.top"
 pid_file: /data/homeserver.pid
 public_baseurl: https://matrix.zops.top/
 listeners:
-  - port: 8448
-    tls: true
-    type: https
+  - port: 8443
+    tls: false
+    type: http
     x_forwarded: true
     resources:
       - names: [client, federation]
@@ -24,10 +24,8 @@ database:
   # the number of TCP keepalives that can be lost before the client's connection
   # to the server is considered dead
   keepalives_count: 3
-log_config: "/data/matrix.zops.top.log.config"
 media_store_path: /data/media_store
 report_stats: false
-signing_key_path: "/data/matrix.zops.top.signing.key"
 trusted_key_servers:
   - server_name: "matrix.org"
 require_auth_for_profile_requests: true

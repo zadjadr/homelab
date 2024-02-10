@@ -15,9 +15,9 @@ provider "oci" {
 }
 
 data "oci_core_images" "latest_images" {
-    compartment_id = var.compartment_ocid
-    operating_system = var.operating_system
-    operating_system_version = var.operating_system_version
+  compartment_id           = var.compartment_ocid
+  operating_system         = var.operating_system
+  operating_system_version = var.operating_system_version
 }
 
 resource "oci_core_instance" "generated_oci_core_instance" {

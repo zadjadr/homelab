@@ -50,7 +50,7 @@ networks:
       encrypted: "true"
     ipam:
       config:
-        - subnet: fd6c:ec89:3749:6eaf:feed:bee4::/112
+        - subnet: fd6c:ec89:3749:6eaf:feed:bee3::/112
         - subnet: 172.19.3.0/24
 
 volumes:
