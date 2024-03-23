@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
 	brevo "github.com/getbrevo/brevo-go/lib"
 )
-
-const waitTimeSec = 10
 
 func sendMail(instance string) {
 	var ctx context.Context
@@ -55,6 +54,11 @@ func applyTerraform(az, name string) bool {
 
 func main() {
 	ociZones := os.Getenv("OCI_AZONES")
+
+	waitTimeSecInt, err := strconv.Atoi(os.Getenv("CHECKER_WAIT_TIME"))
+	if err != nil || waitTimeSecInt == 0 {
+		waitTimeSecInt = 600
+	}
 	if ociZones == "" {
 		ociZones = "ldMg:EU-FRANKFURT-1-AD-1 ldMg:EU-FRANKFURT-1-AD-2 ldMg:EU-FRANKFURT-1-AD-3"
 	}
@@ -73,8 +77,8 @@ func main() {
 					sendMail(name)
 					return
 				}
-				fmt.Printf("Waiting for %d secs before applying again.\n", waitTimeSec)
-				time.Sleep(waitTimeSec * time.Second)
+				fmt.Printf("Waiting for %d secs before applying again.\n", waitTimeSecInt)
+				time.Sleep(time.Duration(waitTimeSecInt) * time.Second)
 			}
 		}
 	}
